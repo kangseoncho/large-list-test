@@ -1,23 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
+import LargeListUL from './component/LargeListUL';
+import LargeListMuiReactWindow from './component/LargeListMuiReactWindow';
+import LargeListUlReactWindow from './component/LargeListUlReactWindow';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+		<header className="App-header">
+				i am header
+		</header>
+
+    	<div className="list-holder"> 
+			{/* <div className="list-container">
+				<LargeListUL />
+				<LargeListUlReactWindow /> 
+			</div> */}
+
+			<LargeListMuiReactWindow />
+		</div>
     </div>
   );
 }
