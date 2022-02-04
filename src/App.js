@@ -2,6 +2,7 @@ import './App.css';
 import LargeListUL from './component/LargeListUL';
 import LargeListMuiReactWindow from './component/LargeListMuiReactWindow';
 import LargeListUlReactWindow from './component/LargeListUlReactWindow';
+import LargeListMuiReactInfiniteScroll from './component/LargeListMuiReactInfiniteScroll';
 
 function App() {
   return (
@@ -11,12 +12,9 @@ function App() {
 		</header>
 
     	<div className="list-holder"> 
-			{/* <div className="list-container">
-				<LargeListUL />
-				<LargeListUlReactWindow /> 
-			</div> */}
-
-			<LargeListMuiReactWindow />
+			{/* <LargeListUlReactWindow />  */}
+			{/* <LargeListMuiReactWindow /> */}
+			<LargeListMuiReactInfiniteScroll />
 		</div>
     </div>
   );
