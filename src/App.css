@@ -34,6 +34,13 @@
 
 }
 
+.broker-list {
+  height: 300px;
+  width: 300px;
+  border-style: solid;
+  border-width: 2px;
+}
+
 .business-partner-list-ul {
   list-style-type: none;
 }

@@ -1,8 +1,6 @@
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemText, Collapse, Box } from '@mui/material';
-// import { FixedSizeList } from 'react-window';
 import LargeListData from './LargeListData';
-import AutoSizer from 'react-virtualized-auto-sizer';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -40,7 +38,6 @@ const LargeListMuiReactInfiniteScroll = () => {
     useEffect(() => {
         console.log("list size: ", largeListData)
         setCurrent(largeListData.slice(count.prev, count.next));
-        //console.log("slice: ", largeListData.slice(count.prev, count.next))
         console.log("current2: ", current)
     },[largeListData])
 
