@@ -1,12 +1,14 @@
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
+//import { KeyboardArrowDownIcon, KeyboardArrowUpIcon } from '@mui/icons-material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { List, ListItem, ListItemButton, Box, Collapse } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import LargeListData from './LargeListData';
-import { useEffect, useState } from 'react';
+import LargeListData from './../data/LargeListData';
+import { useEffect, useState, useRef } from 'react';
 
 
-const LargeListMuiTable = () => {
+const LargeListMuiTable = ({ selectedGridRow }) => {
     const [open, setOpen] = useState({});
     const createInitialOpenState = () => {
         let copyOfOpen = {};
@@ -22,27 +24,36 @@ const LargeListMuiTable = () => {
     }
 
     const [largeListData, setLargeListData] = useState([]);
-
     useEffect(() => {
         setLargeListData(LargeListData);
         setOpen(createInitialOpenState());
-
-        console.log(largeListData)
     }, [])
+
+    const moveToSelectedRow = () => {
+        console.log("selected grid row: ", selectedGridRow)
+        if(selectedGridRow !== null && selectedGridRow.length > 0) {
+            return true
+        };
+        return false;
+    };
+
+    const myRef = useRef(null);
 
 
     const generateBusinessPartnerList = largeListData.map((businessPartner, index) => {
         return (
-            <>
-                <TableRow key={100000 + index} >
-                    <TableCell component={Button} sx={{width: "100%"}} onClick={() => handleClick(businessPartner.id)}>
-                        {/* <Button variant="text" onClick={() => handleClick(businessPartner.id)} sx={{width: "100%"}}> { */}
-                            {businessPartner.lastName, businessPartner.firstName} 
-                            {/* {open[businessPartner.id] ? <ExpandMore/> : <ExpandLess/> } */}
-                        {/* </Button> */}
-                    </TableCell>
+            <> {/*  needs to go in TableRow*/}
+                <TableRow ref={myRef} key={100000 + index} >
+                    <TableCell align="center" padding="none" onClick={(e) => handleClick(businessPartner.id)} >
+                        <Button 
+                            variant="text" sx={{width: "100%"}} 
+                            endIcon={open[businessPartner.id] ? <KeyboardArrowDownIcon/> : <KeyboardArrowUpIcon/>}
+                        > 
+                            {businessPartner.lastName, businessPartner.firstName}
+                        </Button>                  
+                    </TableCell>  
                 </TableRow>
-                <TableRow  key={200000 + index} sx={{width: "100%"}}>
+                <TableRow key={200000 + index} sx={{width: "100%"}} >
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}>
                         <Collapse in={open[businessPartner.id]} timeout="auto" unmountOnExit>
                             <Box>
@@ -66,33 +77,6 @@ const LargeListMuiTable = () => {
             </>
         )
     });
-
-
-    // const generateBusinessPartnerList = largeListData.map((businessPartner, index) => {
-    //     return (
-    //         <>
-    //         <ListItem key={index} component="div" disablePadding>
-    //             <ListItemButton onClick={() => handleClick(businessPartner.id)} >
-    //                 <ListItemText primary={businessPartner.firstName + " " + businessPartner.lastName} />
-    //                 {open[businessPartner.id] ? <ExpandMore/> : <ExpandLess/>}
-    //             </ListItemButton>
-    //         </ListItem>    
-    //         <Collapse in={open[businessPartner.id]} timeout="auto" unmountOnExit>
-    //             <List component="div" disablePadding>
-    //                 {businessPartner.businessDetails.map((detail, i) => {
-    //                     return (
-    //                         <ListItemButton key={i} sx={{ pl: 4 }}>
-    //                             <ListItemText primary={detail.city} />
-    //                         </ListItemButton>
-    //                     )
-    //                 })}
-    //             </List>
-    //         </Collapse>
-    //         </>
-    //     )
-    // });
-
-
 
     return (   
 

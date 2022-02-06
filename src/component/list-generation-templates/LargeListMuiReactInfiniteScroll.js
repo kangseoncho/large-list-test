@@ -1,6 +1,6 @@
 import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import { List, ListItem, ListItemButton, ListItemText, Collapse, Box } from '@mui/material';
-import LargeListData from './LargeListData';
+import LargeListData from '../data/LargeListData';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
 

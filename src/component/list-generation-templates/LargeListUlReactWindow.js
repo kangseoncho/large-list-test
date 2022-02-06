@@ -1,5 +1,5 @@
 import { FixedSizeList } from 'react-window';
-import LargeListData from './LargeListData';
+import LargeListData from './data/LargeListData';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { useEffect, useState } from 'react';
 
