@@ -10,7 +10,7 @@ const BusinessPartnerListSample =  () => {
         setGridRows(LargeListData);
     }, []);
 
-    const [selectedGridRow, setSelectedGridRow] = useState();
+    const [selectedGridRow, setSelectedGridRow] = useState([]);
 
 
     return (
