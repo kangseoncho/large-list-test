@@ -4,39 +4,41 @@ import { Box, Collapse } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import LargeListData from './../data/LargeListData';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, createRef } from 'react';
 
 
 const LargeListMuiTable = ({ selectedGridRow }) => {
-    const [listState, setListState] = useState({});
-    const createInitialOpenState = () => {
-        let copyOflistState = {};
-        LargeListData.forEach((item, index) => {
-            copyOflistState[item.id] = {open: false, selected: false}
-        });
-        return copyOflistState;
-    };
-    const handleOpenState = (brokerId) => {
-        let copyOflistState = Object.assign({}, listState);
-        
-        copyOflistState[brokerId].open = !copyOflistState[brokerId].open;
-        setListState(copyOflistState);
-    };
-
-    const handleSelectionState = (brokerId) => {
-        let copyOflistState = Object.assign({}, listState);
-        copyOflistState[brokerId].selected = !copyOflistState[brokerId].selected;
-        setListState(copyOflistState);
-    };
-
     const [largeListData, setLargeListData] = useState([]);
     useEffect(() => {
         setLargeListData(LargeListData);  
         setListState(createInitialOpenState())      
     }, []);
 
-    const myRef = useRef(null);
-    const executeScroll = () => myRef.current.scrollIntoView()   
+
+    const [listState, setListState] = useState({});
+    const createInitialOpenState = () => {
+        let copyOflistState = {};
+        LargeListData.forEach((item, index) => {
+            copyOflistState[item.id] = {open: false, selected: false, ref: createRef()}
+        });
+        return copyOflistState;
+    };
+    const handleOpenState = (brokerId) => {
+        let copyOflistState = Object.assign({}, listState);
+        copyOflistState[brokerId].open = !copyOflistState[brokerId].open;
+        setListState(copyOflistState);
+    };
+    const handleSelectionState = (brokerId) => {
+        let copyOflistState = Object.assign({}, listState);
+        copyOflistState[brokerId].selected = !copyOflistState[brokerId].selected;
+        setListState(copyOflistState);
+    };
+
+
+    const executeScroll = (brokerId) => {
+        const node = listState[brokerId].ref.current;
+        node.scrollIntoView();
+    }  
     const handleGridSelectionChange = () => {
         if(selectedGridRow !== null && selectedGridRow.length === 0) {
             return false;
@@ -44,7 +46,7 @@ const LargeListMuiTable = ({ selectedGridRow }) => {
         if(selectedGridRow !== null && selectedGridRow.length === 1) {
             handleOpenState(selectedGridRow[0])
             handleSelectionState(selectedGridRow[0])
-            executeScroll()
+            executeScroll(selectedGridRow[0])
             return listState[selectedGridRow[0]].selected;
         };
     };
@@ -57,7 +59,7 @@ const LargeListMuiTable = ({ selectedGridRow }) => {
     const generateBusinessPartnerList = largeListData.map((businessPartner, index) => {
         return (
             <> {/* selected needs to go in TableRow*/}
-                <TableRow ref={myRef} key={index} selected={listState[index].selected}>
+                <TableRow ref={listState[index].ref} key={index} selected={listState[index].selected}>
                     <TableCell padding="none" onClick={(e) => handleOpenState(businessPartner.id)} >
                         <Button 
                             variant="text" sx={{width: "100%"}} 
@@ -93,7 +95,6 @@ const LargeListMuiTable = ({ selectedGridRow }) => {
     });
 
     return (   
-
         <TableContainer component={Paper} sx={{ height:"400px", width:"400px" }}>
             <Table aria-label="business-partner-list-table">
                 <TableHead>
@@ -106,9 +107,7 @@ const LargeListMuiTable = ({ selectedGridRow }) => {
                 </TableBody>
             </Table>
         </TableContainer>
-
-    )
-    
+    )  
 }
 
 export default LargeListMuiTable;
