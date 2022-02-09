@@ -35,7 +35,6 @@ const LargeListMuiTreeView = ({ selectedGridRow }) => {
         setExpanded((oldExpanded) => 
             oldExpanded.length === 0 ? mainBrokerNodeIds : [],
         );
-        console.log("expand changed? ", expanded)
     };
 
     const handleSelectClick = () => {
@@ -46,7 +45,6 @@ const LargeListMuiTreeView = ({ selectedGridRow }) => {
         setSelected((oldSelected) =>
             oldSelected.length === 0 ? allBrokerNodeIds : [],
         );
-        console.log("selected changed? ", selected)
     };
 
 
