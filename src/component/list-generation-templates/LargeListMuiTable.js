@@ -45,7 +45,7 @@ const LargeListMuiTable = ({ selectedGridRow }) => {
         }
         if(selectedGridRow !== null && selectedGridRow.length === 1) {
             handleOpenState(selectedGridRow[0])
-            handleSelectionState(selectedGridRow[0])
+            // handleSelectionState(selectedGridRow[0])
             executeScroll(selectedGridRow[0])
             return listState[selectedGridRow[0]].selected;
         };

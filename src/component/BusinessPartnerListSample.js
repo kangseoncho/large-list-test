@@ -1,8 +1,10 @@
 
 import LargeListMuiTable from './../component/list-generation-templates/LargeListMuiTable';
+
 import LargeListGrid from './../component/grid/LargeListGrid';
 import LargeListData from './data/LargeListData';
 import { useState, useEffect } from 'react';
+import LargeListMuiTreeView from './../component/list-generation-templates/LargeListMuiTreeView';
 
 const BusinessPartnerListSample =  () => {
     const [gridRows,setGridRows] = useState([]);
@@ -22,7 +24,7 @@ const BusinessPartnerListSample =  () => {
             />
 
 			<div className="list-holder"> 
-				<LargeListMuiTable selectedGridRow={selectedGridRow} />
+				<LargeListMuiTreeView selectedGridRow={selectedGridRow} />
 			</div>
 		</div>
     )
