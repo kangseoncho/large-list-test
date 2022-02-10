@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { Button } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import LargeListData from '../data/LargeListData';
-import { useEffect, useState, createRef } from 'react';
+import { useEffect, useState, createRef, useRef } from 'react';
 import { TreeView, TreeItem } from '@mui/lab'
 
 
@@ -18,12 +18,11 @@ const LargeListMuiTreeView = ({ selectedGridRow }) => {
     const [selected, setSelected] = useState([]);
 
     const handleExpand = (event, nodeIds) => {
-        console.log("toggle node ids: ", nodeIds)
         setExpanded(nodeIds);
     };
     
     const handleSelect = (event, nodeIds) => {
-        console.log("selected node ids: ", nodeIds)
+        // console.log("selected node ids: ", nodeIds)
         setSelected(nodeIds);
     };
 
@@ -46,11 +45,27 @@ const LargeListMuiTreeView = ({ selectedGridRow }) => {
             oldSelected.length === 0 ? allBrokerNodeIds : [],
         );
     };
+    
+    
+    const scrollRefs = useRef([]);
+    scrollRefs.current = largeListData.map((el,i) => scrollRefs[el.id] ?? createRef());
+    const executeScroll = (brokerId) => {
+        const node = scrollRefs.current[brokerId].current;
+        node.scrollIntoView();
+    }  
+    useEffect(() => {
+        if(selectedGridRow !== null && selectedGridRow.length === 0) {
+            return false;
+        }
+        if(selectedGridRow !== null && selectedGridRow.length === 1) {
+            executeScroll(selectedGridRow[0])
+        };
+    }, [selectedGridRow])
 
 
     const generateBusinessPartnerList =  largeListData.map((businessPartner, index) => {
         return (
-            <TreeItem key={businessPartner.id} nodeId={businessPartner.id.toString()} label={businessPartner.lastName}>
+            <TreeItem ref={scrollRefs.current[businessPartner.id]} key={businessPartner.id} nodeId={businessPartner.id.toString()} label={businessPartner.lastName}>
                 {businessPartner.businessDetails.map((detail, i) => {
                     return (
                         // need logic in here to decorate where detail.id == businessPartner.id
