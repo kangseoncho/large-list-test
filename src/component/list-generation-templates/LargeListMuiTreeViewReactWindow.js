@@ -6,9 +6,10 @@ import Paper from '@mui/material/Paper';
 import LargeListData from '../data/LargeListData';
 import { useEffect, useState, createRef, useRef, useMemo } from 'react';
 import { TreeView, TreeItem } from '@mui/lab'
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { VariableSizeList } from "react-window";
 
-
-const LargeListMuiTreeView = ({ selectedGridRow }) => {
+const LargeListMuiTreeViewReactWindow = ({ selectedGridRow }) => {
     const [largeListData, setLargeListData] = useState([]);
     useEffect(() => {
         setLargeListData(LargeListData);    
@@ -63,10 +64,17 @@ const LargeListMuiTreeView = ({ selectedGridRow }) => {
     }, [selectedGridRow])
 
 
-    const generateBusinessPartnerList = largeListData.map((businessPartner, index) => {
+
+    const generateBusinessPartnerList = ({index, style, toggleSize}) => {
         return (
-            <TreeItem ref={scrollRefs.current[businessPartner.id]} key={businessPartner.id} nodeId={businessPartner.id.toString()} label={businessPartner.lastName}>
-                {businessPartner.businessDetails.map((detail, i) => {
+            <TreeItem 
+                style={style} 
+                ref={scrollRefs.current[largeListData[index].id]} 
+                key={largeListData[index].id} 
+                nodeId={largeListData[index].id.toString()} 
+                label={largeListData[index].lastName}
+            >
+                {largeListData[index].businessDetails.map((detail, i) => {
                     return (
                         // need logic in here to decorate where detail.id == businessPartner.id
                         // or something like it
@@ -75,40 +83,37 @@ const LargeListMuiTreeView = ({ selectedGridRow }) => {
                 })}
             </TreeItem>
         );
-    });
+    }
 
-    const generateBusinessPartnerList2 = largeListData.map((businessPartner, index) => {
-        return ( 
-            <TreeItem ref={scrollRefs.current[businessPartner.id]} key={businessPartner.id} nodeId={businessPartner.id.toString()} label={businessPartner.lastName}>
-                {businessPartner.businessDetails.map((detail, i) => {
-                    return (
-                        // need logic in here to decorate where detail.id == businessPartner.id
-                        // or something like it
-                        <TreeItem key={i} nodeId={"d-" + detail.id.toString()} label={detail.city} />
-                    );                 
-                })}
-            </TreeItem>
-        )
-    })
-    
-
+    const getRowSize = index => largeListData[index]
+ 
 
     return (   
         <>
-            <Box component={Paper} sx={{ height:"400px", width:"400px", overflowY: 'auto'  }}>
-                <TreeView
-                    aria-label="business-partner-list-tree-view"
-                    defaultCollapseIcon={<ExpandMoreIcon />}
-                    defaultExpandIcon={<ChevronRightIcon />}
-                    expanded={expanded}
-                    selected={selected}
-                    onNodeToggle={handleExpand}
-                    onNodeSelect={handleSelect}
-                    multiSelect
-                >
-                    {/* {generateBusinessPartnerList} */}
-                    {generateBusinessPartnerList2}
-                </TreeView>
+            <Box component={Paper} sx={{ height:"400px", width:"400px"  }}>
+                <AutoSizer>
+                    {({height, width}) => (
+                        <VariableSizeList
+                        height={height}
+                        width={width}
+                        itemCount={largeListData.length}
+                        itemSize={getRowSize}
+                        >
+                            <TreeView
+                                aria-label="business-partner-list-tree-view"
+                                defaultCollapseIcon={<ExpandMoreIcon />}
+                                defaultExpandIcon={<ChevronRightIcon />}
+                                expanded={expanded}
+                                selected={selected}
+                                onNodeToggle={handleExpand}
+                                onNodeSelect={handleSelect}
+                                multiSelect
+                            >
+                                {generateBusinessPartnerList}
+                            </TreeView>
+                        </VariableSizeList>
+                    )}
+                </AutoSizer>
             </Box>
             <Box>
                 <button onClick={handleExpandClick}>expand?</button>
@@ -118,4 +123,4 @@ const LargeListMuiTreeView = ({ selectedGridRow }) => {
     )  
 }
 
-export default LargeListMuiTreeView;
+export default LargeListMuiTreeViewReactWindow;
