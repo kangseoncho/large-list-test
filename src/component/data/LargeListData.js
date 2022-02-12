@@ -1,17 +1,6 @@
 const generateData = () => {
     const data = [];
 
-    const subData = [];
-    // for(let j = 10000; j < 100010; j++) {
-    //     subData.push(
-    //         {
-    //             id: j,
-    //             city: "city " + j,
-    //             postCode: "postCode " + j
-    //         }
-    //     )
-    // }
-
     for(let i = 0; i < 450; i++) {
         data.push({
             id: i,

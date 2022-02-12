@@ -69,7 +69,7 @@ const LargeListMuiTreeViewReactWindow = ({ selectedGridRow }) => {
         return (
             <TreeItem 
                 style={style} 
-                ref={scrollRefs.current[largeListData[index].id]} 
+                // ref={scrollRefs.current[largeListData[index].id]} 
                 key={largeListData[index].id} 
                 nodeId={largeListData[index].id.toString()} 
                 label={largeListData[index].lastName}
@@ -93,12 +93,7 @@ const LargeListMuiTreeViewReactWindow = ({ selectedGridRow }) => {
             <Box component={Paper} sx={{ height:"400px", width:"400px"  }}>
                 <AutoSizer>
                     {({height, width}) => (
-                        <VariableSizeList
-                        height={height}
-                        width={width}
-                        itemCount={largeListData.length}
-                        itemSize={getRowSize}
-                        >
+                        
                             <TreeView
                                 aria-label="business-partner-list-tree-view"
                                 defaultCollapseIcon={<ExpandMoreIcon />}
@@ -109,9 +104,16 @@ const LargeListMuiTreeViewReactWindow = ({ selectedGridRow }) => {
                                 onNodeSelect={handleSelect}
                                 multiSelect
                             >
-                                {generateBusinessPartnerList}
+                                <VariableSizeList
+                                height={height}
+                                width={width}
+                                itemCount={largeListData.length}
+                                itemSize={getRowSize}
+                                >
+                                    {generateBusinessPartnerList}
+                                </VariableSizeList>
                             </TreeView>
-                        </VariableSizeList>
+                        
                     )}
                 </AutoSizer>
             </Box>

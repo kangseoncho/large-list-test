@@ -5,6 +5,7 @@ import LargeListData from './data/LargeListData';
 import { useState, useEffect } from 'react';
 import LargeListMuiTreeView from './../component/list-generation-templates/LargeListMuiTreeView';
 import LargeListMuiTreeViewReactWindow from './../component/list-generation-templates/LargeListMuiTreeViewReactWindow';
+import LargeListAgGridTreeview from './../component/list-generation-templates/LargeListAgGridTreeview';
 
 const BusinessPartnerListSample =  () => {
     const [gridRows,setGridRows] = useState([]);
@@ -24,7 +25,7 @@ const BusinessPartnerListSample =  () => {
             />
 
 			<div className="list-holder"> 
-				<LargeListMuiTreeViewReactWindow selectedGridRow={selectedGridRow} />
+				<LargeListAgGridTreeview selectedGridRow={selectedGridRow} />
 			</div>
 		</div>
     )
