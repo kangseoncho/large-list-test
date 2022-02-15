@@ -82,7 +82,7 @@ const reformData = (data) => {
         }
         
     }
-    console.log("reformed: ",reformed)
+    //console.log("reformed: ",reformed)
     return reformed;
 }
 

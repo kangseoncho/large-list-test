@@ -8,7 +8,6 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 const LargeListAgGridTreeview = ({ selectedGridRow }) => {
     const [largeListData, setLargeListData] = useState([]);
     useEffect(() => {
-        // console.log(LargeListDataReformed)
         setLargeListData(reformLargeListDataForGrid(LargeListDataReformed));      
     }, []);
     const reformLargeListDataForGrid = (LargeListDataReformed) => {
@@ -17,8 +16,6 @@ const LargeListAgGridTreeview = ({ selectedGridRow }) => {
 
     const containerStyle = useMemo(() => ({ width: '100%', height: '100%' }), []);
     const gridStyle = useMemo(() => ({ height: '100%', width: '100%' }), []);
-
-
     const gridRef = useRef();
     const autoGroupColumnDef = useMemo(() => {
         return {
@@ -38,22 +35,33 @@ const LargeListAgGridTreeview = ({ selectedGridRow }) => {
     const getDataPath = useCallback(function (data) {
         return data.businessPartners;
       }, []);
+    const getRowNodeId = useCallback(function (data) {
+        return data.id;
+    })
 
     const [expand, setExpand] = useState(false);
 
-    const handleExpand = (val) => {
-        if(val === false) {
-            this.gridApi.forEachNode((node) => {
-                node.setExpanded(true);
-            })
-            setExpand(!val);
-        } else if(val === true) {
-            this.gridApi.forEachNode((node) => {
-                node.setExpanded(false);
-            })
-            setExpand(!val);
+    const handleExpand = () => {
+        console.log(gridRef.current.api.getSelectedNodes())
+        if(expand === false) {
+            gridRef.current.api.expandAll();
+            setExpand(!expand);
+            return;
+        }
+        if(expand === true) {
+            gridRef.current.api.collapseAll();
+            setExpand(!expand);
+            return;
         }
     }
+
+    useEffect(() => {
+        if(selectedGridRow.length === 1) {
+            console.log("hi")
+            //gridRef.current.api.getVirtualRow(10054);
+        }
+        
+    }, [selectedGridRow])
 
     return (
         <div className="list-container"> 
@@ -67,13 +75,14 @@ const LargeListAgGridTreeview = ({ selectedGridRow }) => {
                         treeData={true}
                         getDataPath={getDataPath}
                         rowSelection={'multiple'}
-                        //suppressRowClickSelection={true}
+                        groupDefaultExpanded={expand}
+                        getRowNodeId={getRowNodeId}
                     >
 
                     </AgGridReact>
                 </div>
             </div>
-            <button onClick={(e) => handleExpand(expand)}>Expand/collapse</button>
+            <button onClick={(e) => handleExpand()}>{expand ? "collapse all" : "expand all"}</button>
         </div>
         
     )
