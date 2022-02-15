@@ -40,7 +40,6 @@ const LargeListAgGridTreeview = ({ selectedGridRow }) => {
     })
 
     const [expand, setExpand] = useState(false);
-
     const handleExpand = () => {
         console.log(gridRef.current.api.getSelectedNodes())
         if(expand === false) {
@@ -57,8 +56,13 @@ const LargeListAgGridTreeview = ({ selectedGridRow }) => {
 
     useEffect(() => {
         if(selectedGridRow.length === 1) {
-            console.log("hi")
-            //gridRef.current.api.getVirtualRow(10054);
+            console.log(gridRef.current.api.getRowNode("10001"))
+            gridRef.current.api.forEachNode(function (node) {
+                if(node.id === "10001") {
+                    node.setSelected(true)
+                    node.parent.setExpanded(true)
+                }
+            })
         }
         
     }, [selectedGridRow])
