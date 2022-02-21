@@ -5,6 +5,20 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
+const mainBrokerCellRenderer = (props) => {
+    console.log("props, ", props)
+    const cellValue = props.valueFormatted ? props.valueFormatted : props.value;
+
+    return (
+        <span>
+            <input type="checkbox"></input>
+            <button>Icon here</button>
+            <span>{cellValue}</span>
+        </span>
+    );
+};
+
+
 const LargeListAgGridTreeview = ({ selectedGridRow }) => {
     const [largeListData, setLargeListData] = useState([]);
     useEffect(() => {
@@ -25,6 +39,7 @@ const LargeListAgGridTreeview = ({ selectedGridRow }) => {
                 suppressCount: true,
                 checkbox: true
             },
+            //qcellRenderer: mainBrokerCellRenderer
         };
     }, []);
     const defaultColDef = useMemo(() => {
